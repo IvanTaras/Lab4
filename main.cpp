@@ -14,20 +14,20 @@ SUITE(KeyTest)
         CHECK (true);
     }
     TEST(LargeAndSmallLetters) {
- modAlphaCipher test (L"МАЛбол");
+ modAlphaCipher test (L"МИНбиг");
         CHECK (true);
     }
     TEST(EmptyKey) {
         CHECK_THROW(modAlphaCipher test(L""), cipher_error);
     }
     TEST(Key_with_a_space) {
-        CHECK_THROW(modAlphaCipher test(L"бол мал"), cipher_error);
+        CHECK_THROW(modAlphaCipher test(L"биг мин"), cipher_error);
     }
     TEST(Key_with_invalid_characters_number) {
-        CHECK_THROW(modAlphaCipher test(L"бол1мал"), cipher_error);
+        CHECK_THROW(modAlphaCipher test(L"биг1мин"), cipher_error);
     }
     TEST(Key_with_invalid_characters_special_character) {
-        CHECK_THROW(modAlphaCipher test(L"БОЛ,мал"), cipher_error);
+        CHECK_THROW(modAlphaCipher test(L"БИГ,мин"), cipher_error);
     }
 }
 
@@ -56,15 +56,15 @@ SUITE(EncryptTest)
         CHECK_EQUAL(true, result_correct == pointer->encrypt(open_text));
     }
     TEST_FIXTURE(KeyAB_fixture,NumberInText ) {
-        wstring open_text = L"ОТЕЦ23СЫН";
+        wstring open_text = L"ОТЕЦ18БРАТ";
         CHECK_THROW(pointer->encrypt(open_text),cipher_error);
     }
     TEST_FIXTURE(KeyAB_fixture,TextWithSpecialSymbol) {
-        wstring open_text = L"ОТЕЦ|СЫН";
+        wstring open_text = L"ОТЕЦ|БРАТ";
         CHECK_THROW(pointer->encrypt(open_text),cipher_error);
     }
     TEST_FIXTURE(KeyAB_fixture,TextWithASpace ) {
-        wstring open_text = L"ОТЕЦ СЫН";
+        wstring open_text = L"ОТЕЦ БРАТ";
         CHECK_THROW(pointer->encrypt(open_text),cipher_error);
     }
 
@@ -92,15 +92,15 @@ SUITE(DecryptTest)
         CHECK_THROW(pointer->decrypt(cipher_text),cipher_error);
     }
     TEST_FIXTURE(KeyAB_fixture,TextWithNumber) {
-        wstring cipher_text = L"ОТЕЦ23СЫН";
+        wstring cipher_text = L"ОТЕЦ18БРАТ";
         CHECK_THROW(pointer->decrypt(cipher_text),cipher_error);
     }
     TEST_FIXTURE(KeyAB_fixture,TextWithSymbol) {
-        wstring cipher_text = L"ТРИ+ДВА";
+        wstring cipher_text = L"ПЯТЬ+ДВА";
         CHECK_THROW(pointer->decrypt(cipher_text),cipher_error);
     }
     TEST_FIXTURE(KeyAB_fixture,TextWithASpace ) {
-        wstring cipher_text = L"ЗДЕСЬ Есть Пробелы";
+        wstring cipher_text = L"ДОЛЖНЫ Быть Пробелы";
         CHECK_THROW(pointer->decrypt(cipher_text),cipher_error);
     }
 }
